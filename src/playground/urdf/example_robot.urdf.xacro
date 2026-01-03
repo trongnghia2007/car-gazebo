@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+
+<!-- Materials -->
+<material name="grey"><color rgba="0.2 0.2 0.2 1"/></material>
+<material name="white"><color rgba="1 1 1 1"/></material>
+<material name="orange"><color rgba="1 0.3 0.1 1"/></material>
+<material name="blue"><color rgba="0 0 1 1"/></material>
+
+<!-- WORLD FRAME (ROOT) -->
+<link name="world"/>
+
+<!-- Joint: world to base_link -->
+<joint name="world_to_base" type="fixed">
+  <parent link="world"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
+<!-- BASE LINK -->
+<link name="base_link">
+  <visual>
+    <origin xyz="2 0 0"/>
+    <geometry><box size="5 0.1 3"/></geometry>
+    <material name="grey"/>
+  </visual>
+</link>
+
+<!-- ARM LINK 3 -->
+<joint name="base_to_l3" type="revolute">
+  <parent link="base_link"/>
+  <child link="l3"/>
+  <origin xyz="0 0.25 0"/>
+  <axis xyz="0 1 0"/>
+  <limit lower="-3.1" upper="3.1" effort="0.1" velocity="0.2"/>
+</joint>
+
+<link name="l3">
+  <visual>
+    <origin xyz="0.75 0 0" rpy="0 1.57 0"/>
+    <geometry><cylinder length="1.5" radius="0.04"/></geometry>
+    <material name="orange"/>
+  </visual>
+</link>
+
+<!-- ARM LINK 2 -->
+<joint name="l3_to_l2" type="revolute">
+  <parent link="l3"/>
+  <child link="l2"/>
+  <origin xyz="1.5 0 0"/>
+  <axis xyz="0 0 1"/>
+  <limit lower="-3.1" upper="3.1" effort="0.1" velocity="0.2"/>
+</joint>
+
+<link name="l2">
+  <visual>
+    <origin xyz="0.75 0 0" rpy="0 1.57 0"/>
+    <geometry><cylinder length="1.5" radius="0.04"/></geometry>
+    <material name="orange"/>
+  </visual>
+</link>
+
+<!-- ARM LINK 1 -->
+<joint name="l2_to_l1" type="revolute">
+  <parent link="l2"/>
+  <child link="l1"/>
+  <origin xyz="1.5 0 0"/>
+  <axis xyz="0 0 1"/>
+  <limit lower="-3.1" upper="3.1" effort="0.1" velocity="0.2"/>
+</joint>
+
+<link name="l1">
+  <visual>
+    <origin xyz="0.5 0 0" rpy="0 1.57 0"/>
+    <geometry><cylinder length="1.0" radius="0.04"/></geometry>
+    <material name="orange"/>
+  </visual>
+</link>
+
+<!-- GRIPPER -->
+<joint name="l1_to_grip" type="revolute">
+  <parent link="l1"/>
+  <child link="grip"/>
+  <origin xyz="1 0 0"/>
+  <axis xyz="0 0 1"/>
+  <limit lower="-3.1" upper="3.1" effort="0.1" velocity="0.2"/>
+</joint>
+
+<link name="grip">
+  <visual>
+    <origin xyz="0.25 0 0"/>
+    <geometry><box size="0.5 0.5 0.05"/></geometry>
+    <material name="white"/>
+  </visual>
+</link>
+
+<!-- CAMERA -->
+<joint name="base_to_camera" type="fixed">
+  <parent link="base_link"/>
+  <child link="camera_link"/>
+  <origin xyz="4 1 2" rpy="-2 0 2.5"/>
+</joint>
+
+<link name="camera_link">
+  <visual>
+    <origin xyz="0 0 -0.2"/>
+    <geometry><box size="0.2 0.2 0.4"/></geometry>
+    <material name="blue"/>
+  </visual>
+</link>
+
+</robot>

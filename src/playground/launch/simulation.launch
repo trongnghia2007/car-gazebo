@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Arguments -->
+  <arg name="world_name" default="$(find playground)/worlds/playground.world"/>
+  <arg name="robot_name" default="mobile_robot"/>
+  <arg name="x_pos" default="0.0"/>
+  <arg name="y_pos" default="0.0"/>
+  <arg name="z_pos" default="0.1"/>
+
+  <!-- Start Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- Load robot description -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find playground)/urdf/robot.urdf'" />
+
+  <!-- Spawn robot in Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -model $(arg robot_name) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" 
+        output="screen"/>
+
+  <!-- Robot State Publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="publish_frequency" value="50.0"/>
+  </node>
+
+  <!-- Joint State Publisher -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+</launch>
