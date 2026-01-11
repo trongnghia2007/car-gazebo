@@ -31,7 +31,7 @@
     <param name="publish_frequency" value="50.0"/>
   </node>
 
-  <!-- Joint State Publisher -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  <!-- Joint State Publisher 
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> -->
 
 </launch>
