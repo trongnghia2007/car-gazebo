@@ -5,6 +5,5 @@ log/
 core
 core.*
 .vscode/
-.devcontainer/
 .catkin_workspace
 *.db
